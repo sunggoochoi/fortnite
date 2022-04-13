@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<script type="text/javascript" src="js/prefixfree.min.js"></script>
+    <title>FORTNITE</title>
+    <style>
+       
+        @import url('https://fonts.googleapis.com/css2?family=League+Gothic&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
+        /*   Reset CSS  */
+        * { margin:0;  padding:0; }
+        ol,ul { list-style: none; }
+        a { outline:0; text-decoration:none; color:#bbb;}
+        img { border:0;}
+        body { position:fixed;  width:100%; height:100%; background:#111;}
+
+        /* 배경동영상 */
+        .video-background {
+            background: #000;
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -99;
+        }
+
+        .video-foreground,
+        .video-background iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            .video-foreground { height: 300%; top: -100%; }
+        }
+
+        @media (max-aspect-ratio: 16/9) {
+            .video-foreground { width: 300%; left: -100%; }
+        }
+
+
+        /*로고*/
+        h1 { position:fixed; top:40px; left:40px; z-index:10;}
+        h1 img { width:300px; height:auto;}
+        header { width:500px; height:100%; position:fixed; top:0px; left:-250px; 
+            background:linear-gradient(-45deg,#314FEB,#09A8D9,#314FEB); 
+            transform:skewX(-40deg); }
+        
+
+        
+        /* 1dept */
+        #gnb{
+            width: 200px;
+            position: absolute;
+            top: 250px;
+            right: 20px;
+        }
+        #gnb>li {position:relative; }
+        #gnb>li>a { 
+            display:block; width:220px; height:70px; font:bold 50px/1.5 play; color:#222; box-sizing:border-box; 
+            padding-right:0px; text-align:center;
+            font-family: 'League Gothic', sans-serif;
+        }
+        #gnb>li.on>a{background-color: black; color: white;}
+        #gnb>li:hover>a{background-color: #878787;color: black;}
+        #gnb em{display: inline-block; transform: skew(40deg) !important;}
+        #gnb em i {margin-right:10px;}
+
+        /* 2dept */
+        #gnb ul{position: absolute; left: 0; top: 0;opacity: 0;transition: 1s;}
+        #gnb li:hover ul{opacity: 1;left: 205px;}
+        #gnb ul a { display:block; width:150px; height:40px; background:#222; 
+            border-bottom:1px solid #b9fb05; font:bold 16px/2.5 arial; color:#fff; 
+            box-sizing:border-box; padding-left:50px; margin-bottom:3px; transition: 1s; }
+        
+        #gnb ul li a:hover{
+            background-color: #97e031;
+            color: black;
+        }
+
+        /*sns*/
+        #sns{
+            position: fixed; 
+            top: 50px; 
+            right: 50px;            
+        }
+        #sns li{
+            float: left;
+            padding-right: 20px;
+        }
+        #sns li i{color: black;font-size: 30px;opacity: 0.5; transform: scale(1);transition: 1s;}
+        #sns li i:hover{opacity: 1; transform: scale(1.5);}
+
+        /* 텍스트 박스 */
+       .txtBox {width:340px; height:280px; position:fixed; top:200px; right:70px; }
+       .txt { position:absolute; top:100px; right:0px; font-size:34px; font-family: 'League Gothic', sans-serif; color:black; letter-spacing:-2px;}
+       .txt b { font:bold 34px arial; color:#314FEB; margin-left:20px;}
+       .tit { 
+           position:absolute; top:0px; right:0px; font-size:100px; color:#314FEB; font-family: 'League Gothic', sans-serif; letter-spacing:-1px;
+            animation: textani linear 1s 0.5s infinite;
+        }
+
+       @keyframes textani{
+           0%{transform: scale(1);opacity: 0.7;}
+           100%{transform: scale(1.3);opacity: 1;}
+       }
+        /* contents 레이아웃 */
+        #side { width:700px; height:100%; position:fixed; bottom:0px; right:-800px; background:#2678EB; opacity:0.5; transform:skewX(-40deg); transition:all 0.5s;}
+        #side:hover { right:-500px; opacity:0.8;}
+        #side .con { width:400px; height:100%; position:absolute; left:150px; bottom:0px; background:black; 	box-sizing:border-box; transition:all  1s;
+        padding: 10px;}
+        #side:hover .con { left:50px;}
+
+        /* contents내 썸네일 */
+        #side .con p { width: 300px; height:100px; position:absolute; left:50px;bottom:60px;}
+        #side .con p em { display:inline-block; font:bold 30px/1.7 arial; color:white; transform:skewX(40deg); font-family: 'League Gothic', sans-serif;}
+        #side .con p img { width:250px; height:100px; opacity:0.5; transition:all 0.5s;transform:skewX(40deg);}
+        #side .con p img:hover { opacity:1;}
+        
+        #side .con p:nth-child(1) { bottom:330px; transform: translateX(200px); transition:all  0.4s;}
+        #side .con p:nth-child(2) { bottom:200px; transform: translateX(200px); transition:all  0.8s;}
+        #side .con p:nth-child(3) { bottom:70px; transform: translateX(200px); transition:all  1.2s;}
+        #side:hover .con p { transform:translateX(0px);}
+        
+        /* 자동롤링버튼*/
+        #side .btnContents { width:150px; height:50px; position:absolute;  bottom:40px; left:100px; color:#b9fb05;	transform:skewX(40deg); }
+        #side:hover .btnContents { left:700px;}	
+        .btnContents i { font-size:60px; position:absolute; bottom:0px; right:0px; opacity:1;}
+        .btnContents i:nth-child(1) { animation:ani linear 1.5s 0s infinite;}
+        .btnContents i:nth-child(2) { animation:ani linear 1.5s 0.5s infinite;}
+        .btnContents i:nth-child(3) { animation:ani linear 1.5s 1.0s infinite;}        
+
+        @keyframes ani{
+            0%{right: 0px;transform: scale(1);opacity: 1;}
+            100%{right: 100px;transform: scale(1.5);opacity: 0;}
+        }
+
+        /*배급사*/
+        #foot{
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+        }
+        #foot img{
+            width: 50px;
+            height: 50px;
+            float: left;
+            padding-left: 20px;
+            opacity: 0.7;
+        }
+        #foot img:hover{
+            transform: scale(1.1);
+            opacity: 1;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- 동영상 ------------------------------------------------------------------------------------>
+    <div class="video-background">
+        <div class="video-foreground">
+            <iframe src="https://www.youtube.com/embed/Q39VK9QAbG4?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1&playlist=Q39VK9QAbG4" frameborder="0" allowfullscreen ></iframe>
+        </div>
+    </div>
+    <!-- 동영상 -->
+
+    <!-- 로고 -------------------------------------------------------------------------------------->
+    <h1><img src="img/fortnite-logo.jpg" /></h1>
+    <!--로고-->    
+
+    <!-- header ------------------------------------------------------------------------------------>
+    <header>		
+        <ul id="gnb">
+            <li class="on">
+                <a href="#"><em></i>FORTNITE</em></a>				
+            </li>
+            <li>
+                <a href="#"><em>BATTLEPASS</em></a>
+                <ul>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+				</ul>						
+            </li>
+            <li>
+                <a href="#"><em>MODE</em></a>
+                <ul>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+				</ul>				
+            </li>
+            <li>				
+                <a href="#"><em>OTHER</em></a>
+                <ul>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+					<li><a href="#"><em>sub</em></a></li>
+				</ul>				
+            </li>	
+        </ul>
+    </header>
+    <!--header-->
+
+    <!-- sns 버튼모음 -------------------------------------------------------------------------->
+	<ul id="sns">
+		<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+		<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+		<li><a href="#"><i class="fa fa-youtube"></i></a></li>
+	</ul>
+    <!-- sns 버튼-->
+
+    <!-- 웹폰트 텍스트박스 ----------------------------------------------------------------------->
+	<section class="txtBox">
+		<p class="txt">WORLD<b>COMEONE!</b></p>
+		<p class="tit">KOREA?</p>
+	</section>
+    <!-- 웹폰트 텍스트박스-->
+
+    <!-- 하단 컨텐츠박스 -------------------------------------------------------------------------------->
+	<section id="side">
+		<div class="con">
+			
+            <p>
+				<em>Event & Community</em>
+				<a href="#"><img src="img/spiderf.jpg" /></a>				
+			</p>
+			<p>
+				<em>News & Notice</em>
+				<a href="#"><img src="img/news.jpg" /></a>				
+			</p>
+			<p>
+				<em>Challenge</em>
+				<a href="#"><img src="img/chall.jpg" /></a>				
+			</p>		
+		</div>
+         <!-- 자동롤링 버튼 ----------------------------------------------------------------------->
+        <div class="btnContents">
+            <i class="fa fa-angle-double-left"></i>
+            <i class="fa fa-angle-double-left"></i>  
+            <i class="fa fa-angle-double-left"></i>
+        </div>
+        <!--자동롤링 버튼-->
+	</section>
+    <!-- 하단 컨텐츠 박스-->
+
+   
+
+    <!-- 배급사----------------------------------------------------------------------------->
+    <footer id="foot">
+        <a href="#"><img src="img/Epiclogo.svg.png"></a>
+        <a href="#"><img src="img/epic.ico"></a>
+    </footer>
+    <!--배급사-->
+</body>
+</html>
